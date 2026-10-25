@@ -69,6 +69,50 @@ class ThemeName(pydantic.BaseModel):
         return name
 
 
+def find_missing_options(
+    model: pydantic.BaseModel, reference: type[pydantic.BaseModel], prefix: str = ""
+) -> list[str]:
+    """List the options of a reference model that a model doesn't define.
+
+    Why:
+        A custom theme's `__init__.py` is a copy of the classic theme's model, and
+        the renderer reads the classic theme's options from it. A copy made by an
+        older RenderCV lacks the options added since, so it must fail validation
+        instead of crashing the renderer.
+
+    Example:
+        ```py
+        find_missing_options(old_theme, ClassicTheme)
+        # ["colors.subsection_titles", "templates.shorten_date_ranges"]
+        ```
+
+    Args:
+        model: Validated model to check.
+        reference: Model class whose options the model must define.
+        prefix: Dotted path of `model` within the theme, for the result.
+
+    Returns:
+        Dotted paths of the missing options.
+    """
+    missing_options = []
+    model_fields = type(model).model_fields
+    for name, field_info in reference.model_fields.items():
+        if name not in model_fields:
+            missing_options.append(f"{prefix}{name}")
+            continue
+        value = getattr(model, name)
+        option_class = field_info.annotation
+        if (
+            isinstance(option_class, type)
+            and issubclass(option_class, pydantic.BaseModel)
+            and isinstance(value, pydantic.BaseModel)
+        ):
+            missing_options.extend(
+                find_missing_options(value, option_class, f"{prefix}{name}.")
+            )
+    return missing_options
+
+
 def validate_design(design: Any, info: pydantic.ValidationInfo) -> pydantic.BaseModel:
     """Validate design options for built-in or custom themes with dynamic loading.
 
@@ -175,6 +219,18 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> pydantic.Base
         theme_data_model = theme_data_model_class.model_validate(
             design, context=info.context
         )
+        if missing_options := find_missing_options(theme_data_model, ClassicTheme):
+            raise pydantic_core.PydanticCustomError(
+                CustomPydanticErrorTypes.other.value,
+                "The custom theme {theme_name} lacks design options that RenderCV"
+                " needs: {missing_options}. Its __init__.py was probably created by an"
+                " older version of RenderCV. Create a new theme with `rendercv"
+                " create-theme` and copy your changes into it, or add these options.",
+                {
+                    "theme_name": theme_name,
+                    "missing_options": ", ".join(missing_options),
+                },
+            )
     else:
         # A template-only custom theme (no __init__.py) accepts the classic theme's
         # design options:

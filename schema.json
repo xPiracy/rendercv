@@ -85,6 +85,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -107,6 +109,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -148,6 +152,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -319,6 +325,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -341,6 +349,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -382,6 +392,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -805,6 +817,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -827,6 +841,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -868,6 +884,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -962,6 +980,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -984,6 +1004,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -1025,6 +1047,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -1715,6 +1739,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -1737,6 +1763,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -1778,6 +1806,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -1862,6 +1892,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -1884,6 +1916,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -1925,6 +1959,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -2052,6 +2088,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -2074,6 +2112,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -2115,6 +2155,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -2199,6 +2241,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -2221,6 +2265,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -2262,6 +2308,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -2346,6 +2394,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -2368,6 +2418,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -2409,6 +2461,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -2493,6 +2547,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -2515,6 +2571,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -2556,6 +2614,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -2683,6 +2743,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -2705,6 +2767,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -2746,6 +2810,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -2830,6 +2896,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -2852,6 +2920,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -2893,6 +2963,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -2977,6 +3049,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -2999,6 +3073,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -3040,6 +3116,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -3297,6 +3375,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -3319,6 +3399,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -3360,6 +3442,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -3621,6 +3705,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -3643,6 +3729,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -3684,6 +3772,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -3768,6 +3858,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -3790,6 +3882,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -3831,6 +3925,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -4049,6 +4145,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -4071,6 +4169,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -4112,6 +4212,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -4208,6 +4310,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -4230,6 +4334,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -4271,6 +4377,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -4355,6 +4463,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -4377,6 +4487,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -4418,6 +4530,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -4607,33 +4721,33 @@
         "typst_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ",
-          "description": "Output path for the Typst file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Output path for the Typst file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- CURRENT_DATE: The current date in the `single_date` format (e.g., Jan 2024)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "pdf_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf",
-          "description": "Output path for the PDF file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Output path for the PDF file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- CURRENT_DATE: The current date in the `single_date` format (e.g., Jan 2024)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "markdown_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md",
-          "description": "Output path for the Markdown file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n",
+          "description": "Output path for the Markdown file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- CURRENT_DATE: The current date in the `single_date` format (e.g., Jan 2024)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "Markdown Path"
         },
         "html_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html",
-          "description": "Output path for the HTML file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Output path for the HTML file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- CURRENT_DATE: The current date in the `single_date` format (e.g., Jan 2024)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "png_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png",
-          "description": "Output path for PNG files, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Output path for PNG files, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- CURRENT_DATE: The current date in the `single_date` format (e.g., Jan 2024)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "svg_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.svg",
-          "description": "Output path for SVG files, one per page, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.svg`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n",
+          "description": "Output path for SVG files, one per page, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.svg`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- CURRENT_DATE: The current date in the `single_date` format (e.g., Jan 2024)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- DAY_ORDINAL: Day of the month as an ordinal (e.g., 5th)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "SVG Path"
         },
         "dont_generate_markdown": {
@@ -4772,6 +4886,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -4794,6 +4910,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -4835,6 +4953,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -5090,6 +5210,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -5112,6 +5234,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -5153,6 +5277,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -5280,6 +5406,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -5302,6 +5430,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -5343,6 +5473,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -5427,6 +5559,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -5449,6 +5583,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -5490,6 +5626,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }
@@ -5577,6 +5715,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Abbreviations",
           "type": "array"
         },
@@ -5599,6 +5739,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "title": "Month Names",
           "type": "array"
         },
@@ -5640,6 +5782,8 @@
           "items": {
             "type": "string"
           },
+          "maxItems": 31,
+          "minItems": 31,
           "title": "Day Ordinals",
           "type": "array"
         }

@@ -41,6 +41,17 @@ class RenderCVSchemaGenerator(pydantic.json_schema.GenerateJsonSchema):
             return dft.as_posix()
         return super().encode_default(dft)
 
+    def tagged_union_schema(
+        self, schema: pydantic_core.core_schema.TaggedUnionSchema
+    ) -> pydantic.json_schema.JsonSchemaValue:
+        json_schema = super().tagged_union_schema(schema)
+        # A union whose branch a function chooses, like a photo's path or URL, has
+        # no tag field, and its branches overlap (a URL is also text). `oneOf` would
+        # then reject inputs matching several branches, so any of them may match:
+        if "discriminator" not in json_schema and "oneOf" in json_schema:
+            json_schema["anyOf"] = json_schema.pop("oneOf")
+        return json_schema
+
     def model_schema(
         self, schema: pydantic_core.core_schema.ModelSchema
     ) -> pydantic.json_schema.JsonSchemaValue:

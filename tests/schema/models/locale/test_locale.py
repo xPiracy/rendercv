@@ -100,6 +100,21 @@ def test_every_locale_accepts_user_section_labels(language):
     assert locale.section_labels == {"research": "Selected Work"}
 
 
+@pytest.mark.parametrize("language", available_locales)
+@pytest.mark.parametrize(
+    ("field", "length"),
+    [("month_names", 12), ("month_abbreviations", 12), ("day_ordinals", 31)],
+)
+def test_every_locale_requires_complete_lists(language, field, length):
+    # Rendering indexes these lists by month and day, so a short list must fail
+    # validation instead of crashing the renderer:
+    with pytest.raises(pydantic.ValidationError) as exc:
+        locale_adapter.validate_python(
+            {"language": language, field: ["x"] * (length - 1)}
+        )
+    assert exc.value.errors()[0]["loc"] == (field,)
+
+
 @pytest.mark.parametrize(
     "value", [{}, {"language": "engilsh"}, {"language": 3}, {"language": []}]
 )

@@ -8,6 +8,7 @@ from ..path import ExistingPathRelativeToInput, PlannedPathRelativeToInput
 file_path_placeholders_description = """The following placeholders can be used:
 
 - OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)
+- CURRENT_DATE: The current date in the `single_date` format (e.g., Jan 2024)
 - MONTH_NAME: Full name of the month (e.g., January)
 - MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)
 - MONTH: Month as a number (e.g., 1)

@@ -48,3 +48,27 @@ def test_disabled_markdown_skips_unused_markdown_and_html_templates(tmp_path):
         context={"context": ValidationContext(input_file_path=tmp_path / "cv.yaml")},
     )
     assert model.settings.render_command.dont_generate_markdown
+
+
+def test_ignores_html_files_that_are_not_templates(tmp_path):
+    # An `html` folder next to the CV can hold unrelated pages; only `Full.html`
+    # is a template:
+    (tmp_path / "html").mkdir()
+    (tmp_path / "html" / "page.html").write_text("{% broken %}", encoding="utf-8")
+    model = RenderCVModel.model_validate(
+        {"cv": {"name": "Jane Doe"}},
+        context={"context": ValidationContext(input_file_path=tmp_path / "cv.yaml")},
+    )
+    assert model.cv.name == "Jane Doe"
+
+
+def test_rejects_an_invalid_html_template(tmp_path):
+    (tmp_path / "html").mkdir()
+    (tmp_path / "html" / "Full.html").write_text("{% broken %}", encoding="utf-8")
+    with pytest.raises(pydantic.ValidationError, match=r"Full\.html"):
+        RenderCVModel.model_validate(
+            {"cv": {"name": "Jane Doe"}},
+            context={
+                "context": ValidationContext(input_file_path=tmp_path / "cv.yaml")
+            },
+        )

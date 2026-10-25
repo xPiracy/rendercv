@@ -37,24 +37,30 @@ All notable changes to this project will be documented in this file.
 - HuggingFace ([#746](https://github.com/rendercv/rendercv/issues/746)), Itch.io, and Devpost ([#756](https://github.com/rendercv/rendercv/issues/756)) social networks, WhatsApp usernames ([#777](https://github.com/rendercv/rendercv/issues/777)), and longer IMDb IDs ([#806](https://github.com/rendercv/rendercv/issues/806)).
 - Custom connections can be plain text, without a URL ([#803](https://github.com/rendercv/rendercv/issues/803)).
 - Chinese, Japanese, and Korean are rendered with the bundled Noto Sans fonts, in the variant of the CV's language ([#655](https://github.com/rendercv/rendercv/issues/655)).
-- Small capitals are synthesized when the font doesn't have them, like in the section titles of the `ember` and `opal` themes ([#807](https://github.com/rendercv/rendercv/issues/807)).
+- Small capitals are synthesized when the font doesn't have them, like in the section titles of the `ember` and `opal` themes ([#807](https://github.com/rendercv/rendercv/issues/807)). Their text is copied as capital letters.
 - Python 3.15 is supported.
 
 ### Changed
 
 - User content is parsed once into a tree and emitted once, as Typst or Markdown, instead of being rewritten as text several times. Escaping now follows the grammars exactly: `"` makes smart quotes, and `%`, `>`, and `/` are text.
+- Bold and italic follow CommonMark: after punctuation, a closing `**` needs a space, punctuation, or the line's end after it, so `**C++**17` stays literal while `**C++** 17` is bold. Raw HTML and Markdown images in content are shown as text, in the HTML output too ([#594](https://github.com/rendercv/rendercv/pull/594)).
+- `DATE` is only the date: the time span is the separate `TIME_SPAN` placeholder. A custom template that should show time spans needs `TIME_SPAN`; the built-in templates have it.
+- In entry templates, an uppercase word of two or more letters or digits, like `GPA` or `Q3`, is a placeholder for the field of that name, and a single capital letter is text.
 - A template placeholder without a value is removed together with the formatting, brackets, and connecting words that only existed for it.
 - Markdown and HTML headings nest like the PDF's: sections are level 2 (they were level 1, like the name), subsections level 3, and entries one level below their section.
+- The Markdown and HTML header lists the same contact details as the PDF, in the same format: phone numbers follow `design.header.connections.phone_number_format`, which is national by default.
 - A date range whose dates are displayed the same, like `Jan 2020 – Jan 2020`, is written as one date, and the time spans of month ranges count whole months (February to March is 2 months).
 - An entry's header never ends a page without its content ([#190](https://github.com/rendercv/rendercv/issues/190)).
 - `dont_generate_typst` no longer disables PDF and PNG generation, which compile from memory ([#730](https://github.com/rendercv/rendercv/issues/730), [#760](https://github.com/rendercv/rendercv/issues/760)).
 - Paths given on the command line are relative to the current working directory ([#752](https://github.com/rendercv/rendercv/issues/752)), and the design, locale, and settings files are chosen with the precedence CLI > settings file > main file ([#776](https://github.com/rendercv/rendercv/issues/776)). Every render, and every re-render of watch mode, reads them again.
-- The photo must be an image: PNG, JPEG, GIF, WebP, SVG, or PDF ([#598](https://github.com/rendercv/rendercv/issues/598)).
-- Templates written for RenderCV 1 are rejected with an explanation instead of printing their syntax ([#721](https://github.com/rendercv/rendercv/issues/721)).
+- The photo must be an image: PNG, JPEG, GIF, WebP, SVG, or PDF ([#598](https://github.com/rendercv/rendercv/issues/598)). A photo given as a URL is downloaded during validation, on every render.
+- Templates written for RenderCV 1 are rejected with an explanation instead of printing their syntax, and syntax errors in template overrides are reported during validation ([#721](https://github.com/rendercv/rendercv/issues/721)).
 - Custom theme names must start with a letter, everywhere ([#771](https://github.com/rendercv/rendercv/issues/771)), and the design options of a custom theme without an `__init__.py` are validated.
+- A custom theme's `__init__.py` must define every design option of the classic theme. One created by an older version of RenderCV is rejected with the list of options it lacks; recreate it with `rendercv create-theme`.
+- CLI overrides no longer accept negative list indices, which edited the last items.
 - Validation errors are classified by their type instead of their text, and a mistyped language lists the available ones.
 - The `rendercv-fonts` package is developed in this repository, as a uv workspace package, and its version 0.6.0 has Font Awesome 7.3.1.
-- The Typst package `@preview/rendercv` is version 0.4.0.
+- The Typst package `@preview/rendercv` is version 0.4.0. It draws the `●` highlight bullet of `engineeringresumes`, with tighter line spacing.
 - The Docker image uses Python 3.15 on Debian trixie and the user ID 1000 ([#780](https://github.com/rendercv/rendercv/issues/780)).
 - The AI agent skill is generated in this repository and published with each release ([#784](https://github.com/rendercv/rendercv/issues/784), [#785](https://github.com/rendercv/rendercv/issues/785), [#787](https://github.com/rendercv/rendercv/issues/787), [#788](https://github.com/rendercv/rendercv/issues/788), [#791](https://github.com/rendercv/rendercv/issues/791), [#792](https://github.com/rendercv/rendercv/issues/792), [#793](https://github.com/rendercv/rendercv/issues/793), [#767](https://github.com/rendercv/rendercv/issues/767)).
 - The documentation is built with Zensical ([#728](https://github.com/rendercv/rendercv/issues/728)). The pages of the API reference are now under `api_reference/rendercv/`.
@@ -64,6 +70,7 @@ All notable changes to this project will be documented in this file.
 
 - Nested highlights are nested again ([#712](https://github.com/rendercv/rendercv/issues/712), [#754](https://github.com/rendercv/rendercv/issues/754), [#786](https://github.com/rendercv/rendercv/issues/786)).
 - Formatting around a date that spans several lines is closed and reopened on each line ([#705](https://github.com/rendercv/rendercv/issues/705)).
+- A year written as text, like `date: '2021'`, is shown as `2021` instead of `Jan 2021`, and its time span counts whole years.
 - `bold_keywords` bolds whole words only, whatever their first and last characters ([#706](https://github.com/rendercv/rendercv/issues/706)), and never inside bold text, code, or links ([#736](https://github.com/rendercv/rendercv/issues/736)).
 - The `sb2nov` theme uses the locale's degree phrase ([#755](https://github.com/rendercv/rendercv/issues/755), [#759](https://github.com/rendercv/rendercv/issues/759)), the `harvard` theme no longer shows the degree twice ([#804](https://github.com/rendercv/rendercv/issues/804)), and `ember` and `ink` no longer print a stray `*`.
 - The HTML page has the CV's title ([#805](https://github.com/rendercv/rendercv/issues/805)).
@@ -76,6 +83,8 @@ All notable changes to this project will be documented in this file.
 - The JSON Schema accepts custom themes ([#772](https://github.com/rendercv/rendercv/issues/772)) and is the same on every operating system.
 - Font Awesome icons render offline, in the Docker image too: the Font Awesome Typst package ships with RenderCV instead of being downloaded on the first render ([#775](https://github.com/rendercv/rendercv/issues/775)).
 - A `/` or another character that can't be in a file name, in the CV owner's name, no longer makes directories in the output folder: it's replaced by `_` in file names.
+- A partial `typography.font_family` mapping keeps the theme's own fonts for the elements it leaves out; they became Source Sans 3.
+- A locale's `month_names`, `month_abbreviations`, and `day_ordinals` must have 12, 12, and 31 items. A shorter list is rejected during validation instead of crashing the render.
 
 ## [2.8] - March 21, 2026
 

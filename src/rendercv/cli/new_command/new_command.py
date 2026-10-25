@@ -62,7 +62,10 @@ def cli_command_new(
         ),
     ] = False,
     quiet: Annotated[
-        bool, typer.Option("--quiet", "-q", help="Do not print any messages.")
+        bool,
+        typer.Option(
+            "--quiet", "-q", help="If provided, RenderCV will not print any messages."
+        ),
     ] = False,
 ) -> None:
     if theme not in available_themes:

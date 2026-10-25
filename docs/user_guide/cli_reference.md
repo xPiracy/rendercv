@@ -95,7 +95,7 @@ This creates a `rendercv_output` folder beside the input YAML with all formats.
 rendercv render John_Doe_CV.yaml --watch
 ```
 
-The CV regenerates when the main YAML or any selected design, locale, settings, or overlay file changes. Their contents and references are reloaded each time. Watch mode keeps running after input or compilation errors so you can fix them and save again.
+The CV regenerates when the main YAML or any selected design, locale, settings, or overlay file changes. Their contents and references are reloaded each time. Watch mode keeps running after input errors, so you can fix them and save again. An error while compiling, for example in a custom template, stops it.
 
 **Only generate PDF:**
 

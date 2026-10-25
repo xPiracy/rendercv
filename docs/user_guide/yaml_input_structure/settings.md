@@ -32,7 +32,7 @@ settings:
 
 1. You can optionally split your YAML into multiple files. This file contains the `design` field.
 2. You can optionally split your YAML into multiple files. This file contains the `locale` field.
-3. Available placeholders are: `NAME`, `NAME_IN_SNAKE_CASE`, `NAME_IN_LOWER_SNAKE_CASE`, `NAME_IN_UPPER_SNAKE_CASE`, `NAME_IN_KEBAB_CASE`, `NAME_IN_LOWER_KEBAB_CASE`, `NAME_IN_UPPER_KEBAB_CASE`, `MONTH_NAME`, `MONTH_ABBREVIATION`, `MONTH`, `MONTH_IN_TWO_DIGITS`, `YEAR`, `YEAR_IN_TWO_DIGITS`.
+3. Available placeholders are: `NAME`, `NAME_IN_SNAKE_CASE`, `NAME_IN_LOWER_SNAKE_CASE`, `NAME_IN_UPPER_SNAKE_CASE`, `NAME_IN_KEBAB_CASE`, `NAME_IN_LOWER_KEBAB_CASE`, `NAME_IN_UPPER_KEBAB_CASE`, `CURRENT_DATE`, `MONTH_NAME`, `MONTH_ABBREVIATION`, `MONTH`, `MONTH_IN_TWO_DIGITS`, `DAY`, `DAY_IN_TWO_DIGITS`, `DAY_ORDINAL`, `YEAR`, `YEAR_IN_TWO_DIGITS`.
 4. These keywords will be bolded wherever they appear in your CV text (highlights, summaries, etc.).
 5. Date used for file naming (when using date placeholders), the "last updated" text in the top note, and time span calculations for ongoing events (entries with `end_date: present`)
 6. Files merged over the input file, in order, after the design and locale files and before the ones given with `--overlay`. An overlay has the structure of an input file: its mappings are merged into the input's, and its other values (text and lists) replace the input's. See [Combine YAML Files](../how_to/combine_yaml_files.md).
@@ -42,7 +42,7 @@ All paths in YAML, including `design`, `locale`, and `overlays` references in a 
 
 Design and locale references are selected independently: a CLI `--design` or `--locale-catalog` flag wins over a reference in the settings overlay, which wins over the main YAML reference. An omitted reference falls back to the lower-priority input; `null` clears it. Watch mode reloads the selected files and their references on each render.
 
-Use `OUTPUT_FOLDER` in output paths to refer to `output_folder`, for example `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf`. Name and date placeholders work in file names; characters that can't be in a file name, like `/` and `:`, are replaced by `_`. Day placeholders include `DAY`, `DAY_IN_TWO_DIGITS`, and `DAY_ORDINAL`.
+Use `OUTPUT_FOLDER` in output paths to refer to `output_folder`, for example `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf`. Name and date placeholders work in file names; characters that can't be in a file name, like `/` and `:`, are replaced by `_`.
 
 `dont_generate_typst: true` skips saving the Typst source file. PDF, PNG, and SVG are still generated unless separately disabled. PNG and SVG files are one per page: `NAME_CV_1.png`, `NAME_CV_2.png`, and so on. `dont_generate_markdown: true` also disables HTML.
 

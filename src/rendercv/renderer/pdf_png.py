@@ -208,17 +208,19 @@ def install_bundled_typst_package(
 
 @functools.lru_cache(maxsize=1)
 def get_package_path() -> pathlib.Path:
-    """Set up local Typst package resolution from the bundled rendercv package.
+    """Set up local Typst package resolution from the packages RenderCV ships.
 
     Why:
-        The rendercv Typst package is shipped inside the Python package so that
-        PDF compilation uses this version of it instead of downloading one from
-        Typst Universe. The Typst compiler expects packages in a directory
-        structure of preview/{name}/{version}/, so this creates a temporary
-        directory with that layout.
+        RenderCV ships its own rendercv Typst package and, downloaded at build time
+        into `typst_packages`, the packages that it imports (Font Awesome). Typst
+        finds local packages in a directory laid out as preview/{name}/{version}/,
+        so this creates a temporary directory with that layout. Built-in themes then
+        compile offline with exactly these versions. Packages that custom Typst code
+        imports still download into Typst's own cache, never into RenderCV's
+        installation, which may be read-only.
 
     Returns:
-        Path to temporary package cache directory.
+        Path to the temporary package directory.
     """
     temp_dir = pathlib.Path(tempfile.mkdtemp(prefix="rendercv-pkg-"))
     atexit.register(shutil.rmtree, str(temp_dir), True)
@@ -231,6 +233,11 @@ def get_package_path() -> pathlib.Path:
         temp_dir=temp_dir,
         typ_files=["lib.typ"],
     )
+    # A development checkout has them after `just download-typst-packages`; until
+    # then, Typst downloads them into its cache:
+    shipped_packages = renderer_dir / "typst_packages"
+    if shipped_packages.is_dir():
+        shutil.copytree(shipped_packages, temp_dir, dirs_exist_ok=True)
 
     return temp_dir
 
@@ -247,10 +254,8 @@ def get_typst_compiler(
         all compilations. The source file is passed per compile() call, so
         the compiler survives output filename changes (e.g., when cv.name
         changes). Font paths include package fonts and optional user fonts
-        from input file directory. The Typst packages that the rendercv package
-        imports (fontawesome) are downloaded at build time into the
-        typst_packages directory and shipped with RenderCV, so compilation works
-        offline; Typst downloads them there itself if they are missing.
+        from input file directory. Packages resolve from `get_package_path()`
+        first, so the shipped ones compile offline.
 
     Args:
         input_file_path: Original input file path for relative font resolution.
@@ -270,5 +275,4 @@ def get_typst_compiler(
             ),
         ],
         package_path=get_package_path(),
-        package_cache_path=pathlib.Path(__file__).parent / "typst_packages",
     )

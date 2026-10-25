@@ -29,7 +29,10 @@ def cli_command_create_theme(
         typer.Argument(help="The name of the new theme"),
     ],
     quiet: Annotated[
-        bool, typer.Option("--quiet", "-q", help="Do not print any messages.")
+        bool,
+        typer.Option(
+            "--quiet", "-q", help="If provided, RenderCV will not print any messages."
+        ),
     ] = False,
 ) -> None:
     validate_theme_name(theme_name)

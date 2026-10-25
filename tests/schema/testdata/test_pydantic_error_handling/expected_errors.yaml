@@ -17,12 +17,6 @@ expected_errors:
     yaml_location: [[9, 3], [9, 9]]
     yaml_source: main_yaml_file
 
-  - schema_location: ["cv", "photo"]
-    message: This is not a valid URL.
-    input: photo_doesnt_exist.jpg
-    yaml_location: [[9, 3], [9, 9]]
-    yaml_source: main_yaml_file
-
   - schema_location: ["cv", "phone"]
     message: This is not a valid phone number.
     input: not_a_valid_phone_number

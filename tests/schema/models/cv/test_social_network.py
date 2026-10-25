@@ -93,6 +93,7 @@ class TestSocialNetwork:
             ),
             ("WhatsApp", "+1 (415) 555-2671", "https://wa.me/14155552671"),
             ("WhatsApp", "14155552671", "https://wa.me/14155552671"),
+            ("WhatsApp", "+1.415.555.2671", "https://wa.me/14155552671"),
             ("WhatsApp", "john.doe_123", "https://wa.me/john.doe_123"),
             ("WhatsApp", "@john.doe_123", "https://wa.me/john.doe_123"),
             ("WhatsApp", "a" * 35, "https://wa.me/" + "a" * 35),

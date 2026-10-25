@@ -25,6 +25,9 @@ placeholders = {
         # Text that only accompanies a missing placeholder goes with it:
         ("NAME - CV", {**placeholders, "NAME": ""}, ""),
         ("**NAME**'s CV (YEAR)", placeholders, "John Doe's CV (2024)"),
+        # Document templates have no arbitrary keys, so `_` separates names:
+        ("NAME_CV_YEAR", placeholders, "John Doe_CV_2024"),
+        ("CV_NAME", placeholders, "CV_John Doe"),
     ],
 )
 def test_fill_document_template(template, values, expected):

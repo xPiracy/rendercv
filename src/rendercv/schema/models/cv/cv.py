@@ -1,4 +1,5 @@
 import functools
+import re
 from typing import Annotated, Any, Self
 
 import pydantic
@@ -37,6 +38,26 @@ phones_validator = pydantic.TypeAdapter[list[pydantic_phone_numbers.PhoneNumber]
 )
 
 
+def photo_kind(photo: Any) -> str:
+    """Tell whether a photo is given as a URL or as a file path.
+
+    Why:
+        Validating the input as only one of the two gives one precise error: a
+        missing local file isn't also reported as an invalid URL.
+
+    Args:
+        photo: The photo input.
+
+    Returns:
+        `url` for text with a scheme, like `https://`, or a URL; otherwise `path`.
+    """
+    if isinstance(photo, pydantic.HttpUrl) or (
+        isinstance(photo, str) and re.match(r"[A-Za-z][A-Za-z0-9+.-]*://", photo)
+    ):
+        return "url"
+    return "path"
+
+
 class Cv(BaseModelWithoutExtraKeys):
     name: str | None = pydantic.Field(
         default=None,
@@ -59,11 +80,15 @@ class Cv(BaseModelWithoutExtraKeys):
         ],
     )
     photo: Annotated[
-        ExistingImagePathRelativeToInput | pydantic.HttpUrl | None,
+        Annotated[
+            Annotated[ExistingImagePathRelativeToInput, pydantic.Tag("path")]
+            | Annotated[pydantic.HttpUrl, pydantic.Tag("url")],
+            pydantic.Discriminator(photo_kind),
+        ]
+        | None,
         pydantic.AfterValidator(resolve_photo),
     ] = pydantic.Field(
         default=None,
-        union_mode="left_to_right",
         description="Photo file path (relative to the YAML file) or a URL.",
         examples=["photo.jpg", "images/profile.png", "https://example.com/photo.jpg"],
     )

@@ -32,7 +32,7 @@ def validate_exact_date(date: str | int) -> str | int:
     except RenderCVInternalError as e:
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
-            "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or YYYY"
+            "This is not a valid date. Please use either YYYY-MM-DD, YYYY-MM, or YYYY"
             " format.",
         ) from e
     return date

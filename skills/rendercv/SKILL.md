@@ -89,7 +89,7 @@ class Cv(BaseModelWithoutExtraKeys):
     headline: str | None = pydantic.Field(default=None, examples=['Software Engineer', 'Data Scientist', 'Product Manager'])
     location: str | None = pydantic.Field(default=None, examples=['New York, NY', 'London, UK', 'Istanbul, Türkiye'])
     email: pydantic.EmailStr | list[pydantic.EmailStr] | None = pydantic.Field(default=None, examples=['john.doe@example.com', ['john.doe.1@example.com', 'john.doe.2@example.com']])
-    photo: Annotated[ExistingImagePathRelativeToInput | pydantic.HttpUrl | None, pydantic.AfterValidator(resolve_photo)] = pydantic.Field(default=None, union_mode='left_to_right', examples=['photo.jpg', 'images/profile.png', 'https://example.com/photo.jpg'])
+    photo: Annotated[Annotated[Annotated[ExistingImagePathRelativeToInput, pydantic.Tag('path')] | Annotated[pydantic.HttpUrl, pydantic.Tag('url')], pydantic.Discriminator(photo_kind)] | None, pydantic.AfterValidator(resolve_photo)] = pydantic.Field(default=None, examples=['photo.jpg', 'images/profile.png', 'https://example.com/photo.jpg'])
     phone: pydantic_phone_numbers.PhoneNumber | list[pydantic_phone_numbers.PhoneNumber] | None = pydantic.Field(default=None, examples=['+1-234-567-8900', ['+1-234-567-8900', '+44 20 1234 5678']])
     website: pydantic.HttpUrl | list[pydantic.HttpUrl] | None = pydantic.Field(default=None, examples=['https://johndoe.com', ['https://johndoe.com', 'https://www.janesmith.dev']])
     social_networks: list[SocialNetwork] | None = pydantic.Field(default=None)

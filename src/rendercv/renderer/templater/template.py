@@ -32,8 +32,14 @@ from .markup import (
 )
 from .segments import literal_alternation, partition, rewrite
 
-# A known name followed by an UPPERCASE letter is part of a longer word:
-known_placeholder_pattern = "(?<![A-Z0-9_])(?:{names})(?![A-Z])"
+# A known name followed by an UPPERCASE letter is part of a longer word. In entry
+# templates, a known name after an underscore is too: `CO_AUTHORS` names an
+# arbitrary key, not `AUTHORS`. Document templates have no arbitrary keys, so there
+# an underscore separates names, as in `NAME_CV_YEAR`:
+known_placeholder_patterns = {
+    True: "(?<![A-Z0-9_])(?:{names})(?![A-Z])",
+    False: "(?<![A-Z0-9])(?:{names})(?![A-Z])",
+}
 # An unknown UPPERCASE word names an arbitrary key that the entry doesn't have:
 unknown_placeholder_pattern = "(?<![A-Za-z0-9_])[A-Z][A-Z0-9_]+(?![A-Za-z0-9_])"
 
@@ -51,6 +57,8 @@ def placeholder_pattern(
         `DAY`, and `בAREA` contains `AREA`, but `UNNAMED` doesn't contain `NAME`.
         With an open vocabulary (entry templates can reference arbitrary keys),
         any other UPPERCASE word of two or more characters is a placeholder too.
+        With a closed one, a known name may also follow an underscore, so
+        `NAME_CV_YEAR` contains `NAME` and `YEAR`.
 
     Args:
         names: Known placeholder names.
@@ -62,7 +70,9 @@ def placeholder_pattern(
     alternatives = []
     if names:
         alternatives.append(
-            known_placeholder_pattern.format(names=literal_alternation(names).pattern)
+            known_placeholder_patterns[open_vocabulary].format(
+                names=literal_alternation(names).pattern
+            )
         )
     if open_vocabulary:
         alternatives.append(unknown_placeholder_pattern)

@@ -4,9 +4,9 @@ toc_depth: 2
 
 # Testing
 
-A test runs code and checks its result against an expectation. This records how the code should behave and catches changes that break that behavior. RenderCV uses [pytest](https://docs.pytest.org/) to find and run functions named `test_...` in `tests/`, whose paths mirror `src/rendercv/`.
+A change in one place of a program can break something somewhere else. Checking everything by hand after each change is slow, and things get missed. A **test** is a small program that runs a piece of RenderCV and checks the result against what it should be. Thousands of them run in under a minute, so every change gets checked against everything RenderCV is supposed to do.
 
-For example, this test expresses the rule that an overlay replaces a whole list:
+RenderCV uses [pytest](https://docs.pytest.org/), which finds the functions named `test_...` in the `tests/` folder and runs them. That folder mirrors `src/rendercv/`, so the tests for a module are easy to find. This test checks that an overlay replaces a whole list:
 
 ```python
 from rendercv.schema.override_dictionary import merge_overlay
@@ -18,59 +18,61 @@ def test_overlay_replaces_a_list():
     assert data["items"] == ["replacement"]
 ```
 
-The `assert` fails if the actual result differs. For a bug fix, first make a test fail on the reported input, then change the implementation. That confirms the test can detect the bug and protects against its return: a **regression**.
+`assert` states what must be true. If it isn't, the test fails and pytest shows the actual value next to the expected one.
 
-## Run the tests
+When fixing a bug, write the test first and watch it fail on the reported input; that proves the test can detect the bug. Once the fix makes it pass, the test stops the bug from coming back unnoticed. A bug that comes back is called a **regression**.
+
+## Running the tests
 
 ```bash
 just test
 just test-coverage
 ```
 
-**Coverage** measures which statements ran during testing. Open `htmlcov/index.html` to find code the tests did not execute. Executing a line does not establish that its result was checked correctly, so coverage helps locate gaps but does not prove correctness.
+**Coverage** shows which lines of code ran during the tests. Open `htmlcov/index.html` to find lines that no test reached. A line that ran wasn't necessarily checked, so coverage finds gaps but can't prove that code is correct.
 
-While developing, run the relevant file and stop at its first failure with `-x`:
+While working on one area, run only its tests, and stop at the first failure with `-x`:
 
 ```bash
 uv run --frozen --all-extras pytest tests/renderer/templater/test_date.py -x
 ```
 
-## Write behavior tests
+## Writing tests
 
-Assert the expected result or error, rather than the sequence of internal calls. Prefer real parsing, validation, and rendering. A **mock** replaces a dependency with a controlled substitute; use one for an external service when the test should not make a network request. Test file operations with temporary files.
+Test what the code does, not how it does it: check the result or the error, not which internal functions ran. Then the code can be reorganized without rewriting its tests. Use the real parsing, validation, and rendering rather than imitations. A **mock** is a stand-in for a real dependency; use one only where the real thing doesn't belong in a test, such as a website that would otherwise be contacted. Test file handling with real temporary files.
 
-A pytest **fixture** supplies setup through a test's arguments. For example, `tmp_path` supplies a separate temporary directory for each test. Put shared fixtures in the nearest common `conftest.py`, which pytest discovers automatically. Keep simple values inline.
+A pytest **fixture** prepares something a test needs and passes it in as an argument. A test that asks for `tmp_path`, for example, receives a fresh empty folder. Fixtures shared by several test files go in the nearest `conftest.py`, which pytest loads automatically. Keep simple values inside the test itself.
 
-Name a single test after the function or class it exercises. Group multiple tests under `TestFunctionName` or `TestClassName`, with method names describing expected behavior. Use `pytest.mark.parametrize` to run the same test with several input/expected-result pairs.
+Name a single test after the function or class it checks. Group several tests in a class named `TestFunctionName` or `TestClassName`, with method names that describe the expected behavior. To check one behavior with several inputs, list the input and expected-result pairs with `pytest.mark.parametrize` instead of copying the test.
 
-Choose boundary cases relevant to the change: missing fields, empty lists, Unicode, multiline content, nested entries, or paths outside the working directory. Pipeline tests should check that invalid input fails during validation and unexpected renderer failures propagate.
+Choose the edge cases that matter for the change: missing fields, empty lists, non-English characters, multi-line text, nested entries, paths outside the current folder. Tests of the whole pipeline should confirm that invalid input fails during validation and that unexpected failures in the renderer aren't hidden.
 
-## Compare rendered output
+## Comparing rendered output
 
-Renderer tests compare generated files with saved **reference files** in `tests/renderer/testdata/`. These record the output we previously inspected and accepted. A difference in any expected page fails the comparison, which catches layout changes that small assertions can miss.
+A handful of assertions can't describe a whole page. Renderer tests therefore compare generated files with saved **reference files** in `tests/renderer/testdata/`: output that someone inspected and accepted. Any difference on any page fails the test, which catches layout changes that individual assertions would miss.
 
-PDF and PNG reference tests use only bundled fonts, so fonts installed on your computer cannot change the expected output.
+PDF and PNG tests use only the fonts that ship with RenderCV, so the fonts installed on your computer can't change the result.
 
-When output changes intentionally, run:
+When output changes on purpose, run:
 
 ```bash
 just update-testdata
 ```
 
-Inspect the changed Typst, Markdown, HTML, PDFs, and images before committing them. Updating references accepts the new output, so doing it without inspection could accept a bug. Keep focused regression assertions alongside these broad comparisons.
+Then look at every changed Typst, Markdown, HTML, PDF, and image file before committing. Updating the references declares the new output correct; doing it without looking could accept a bug as the new standard. Keep focused assertions for the specific behavior next to these broad comparisons.
 
-Tests also check that generated schemas, examples, and the AI agent skill match their source. Regenerate the artifacts affected by your change.
+Other tests check that generated files, such as the schema, the examples, and the AI agent instructions, match the code that generates them. Regenerate the ones your change affects.
 
-## Test properties across many inputs
+## Testing rules across many inputs
 
-An example test checks particular values. A **property-based test** checks a rule across generated inputs. For example, applying keyword bolding twice should have the same result as applying it once.
+An ordinary test checks a few chosen examples. A **property-based test** checks a rule that must hold for every input, for example "bolding the keywords twice gives the same result as bolding them once". A tool invents the inputs, including odd combinations a person wouldn't think of.
 
-[Hypothesis](https://hypothesis.readthedocs.io/) generates cases from rules called strategies. If it finds a failure, it tries to reduce the input to a smaller example that still fails. RenderCV's strategies combine formatting, links, code, Typst expressions, lists, multiline values, and missing placeholders, revealing interactions that hand-picked examples can miss.
+[Hypothesis](https://hypothesis.readthedocs.io/) is that tool. You describe what the inputs look like with **strategies**, and Hypothesis generates many of them. When an input breaks the rule, Hypothesis shrinks it to the smallest input that still fails, which makes the cause easy to see. RenderCV's strategies mix formatting, links, code, Typst code, lists, multi-line text, and missing fields.
 
-`just test` uses the normal profile. For content-pipeline changes, use the stress profile:
+`just test` generates 100 inputs per rule, and the automated checks on GitHub generate 200; named **profiles** in `tests/conftest.py` set these amounts. After changing how content is processed, run the `stress` profile:
 
 ```bash
 HYPOTHESIS_PROFILE=stress uv run --frozen --all-extras pytest tests/renderer/templater
 ```
 
-It requests 1,500 examples per property; finite input sets can run out sooner. Preserve useful failing examples as focused regression tests after fixing the bug.
+It asks for 1,500 inputs per rule; rules with fewer possible inputs finish sooner. When Hypothesis finds a failure, fix the bug and keep the shrunk input as an ordinary regression test.

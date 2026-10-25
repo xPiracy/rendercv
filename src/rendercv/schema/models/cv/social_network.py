@@ -57,6 +57,18 @@ url_dictionary: dict[SocialNetworkName, str] = {
 }
 
 
+def is_whatsapp_username(handle: str) -> bool:
+    """Tell whether a WhatsApp handle is a username rather than a phone number.
+
+    Args:
+        handle: The handle without a leading `@`.
+
+    Returns:
+        Whether the handle is a username.
+    """
+    return bool(re.fullmatch(r"[a-z0-9._]{3,35}", handle)) and not handle.isdecimal()
+
+
 class SocialNetwork(BaseModelWithoutExtraKeys):
     network: SocialNetworkName = pydantic.Field()
     username: str = pydantic.Field(
@@ -170,11 +182,10 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         " 'username.bsky.social' or 'domain.com').",
                     )
             case "WhatsApp":
-                handle = username.removeprefix("@")
-                if re.fullmatch(r"[a-z0-9._]{3,35}", handle) and not handle.isdecimal():
+                if is_whatsapp_username(username.removeprefix("@")):
                     return username
                 try:
-                    if not re.fullmatch(r"\+?[0-9][0-9 ()-]*", username):
+                    if not re.fullmatch(r"\+?[0-9][0-9 ().-]*", username):
                         raise ValueError("Invalid international phone number")
                     pydantic.TypeAdapter[pydantic_phone_numbers.PhoneNumber](
                         pydantic_phone_numbers.PhoneNumber
@@ -230,10 +241,10 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
         elif self.network == "Itch.io":
             url = f"https://{self.username.lower()}.itch.io/"
         elif self.network == "WhatsApp":
-            username = self.username.removeprefix("@")
-            if re.fullmatch(r"\+?[0-9][0-9 ()-]*", username):
-                username = re.sub(r"[^0-9]", "", username)
-            url = url_dictionary[self.network] + username
+            handle = self.username.removeprefix("@")
+            if not is_whatsapp_username(handle):
+                handle = re.sub(r"[^0-9]", "", handle)
+            url = url_dictionary[self.network] + handle
         else:
             url = url_dictionary[self.network] + self.username
 

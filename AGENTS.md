@@ -15,5 +15,7 @@ The developer guide also covers themes, locales, social networks, documentation,
 release workflows, and publishing the Typst package. Keep contributor guidance
 there so it applies equally to humans and coding agents.
 
-Write developer documentation for readers new to the tools: explain the problem,
-the idea, and its use in RenderCV. Preserve useful intuition while cutting repetition.
+Write developer documentation for readers who have never heard of the topic and may
+not be technical: give them an intuitive and technically accurate picture of what
+each thing is, why we need it, and how RenderCV uses it, in as few words as that
+takes. See [Writing documentation](docs/developer_guide/contributing.md#writing-documentation).

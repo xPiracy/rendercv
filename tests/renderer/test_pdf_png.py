@@ -102,6 +102,26 @@ class TestGetPackagePath:
         second_result = get_package_path()
         assert first_result == second_result
 
+    def test_includes_the_shipped_packages(self):
+        # Built-in themes compile offline from the shipped packages, while other
+        # packages download into Typst's cache instead of RenderCV's installation:
+        renderer = pathlib.Path(rendercv.renderer.__file__).parent
+        shipped = renderer / "typst_packages"
+        typst.compile(
+            renderer / "rendercv_typst" / "lib.typ", package_cache_path=shipped
+        )
+        get_package_path.cache_clear()
+        result = get_package_path()
+
+        versions = [
+            version.relative_to(shipped)
+            for version in shipped.glob("preview/*/*")
+            if version.is_dir()
+        ]
+        assert versions
+        for version in versions:
+            assert (result / version).is_dir()
+
     def test_raises_error_when_version_missing_from_typst_toml(self, tmp_path):
         get_package_path.cache_clear()
         toml_file = tmp_path / "typst.toml"

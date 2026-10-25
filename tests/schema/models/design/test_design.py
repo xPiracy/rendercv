@@ -6,7 +6,7 @@ import pydantic
 import pytest
 
 from rendercv.exception import RenderCVInternalError
-from rendercv.schema.models.design.design import Design
+from rendercv.schema.models.design.design import Design, find_missing_options
 from rendercv.schema.models.validation_context import ValidationContext
 
 
@@ -130,10 +130,12 @@ class TestDesign:
         init_file = custom_theme_path / "__init__.py"
         init_file.write_text(
             """
-from pydantic import BaseModel
+from typing import Literal
 
-class MythemeTheme(BaseModel):
-    theme: str
+from rendercv.schema.models.design.classic_theme import ClassicTheme
+
+class MythemeTheme(ClassicTheme):
+    theme: Literal["mytheme"] = "mytheme"
     custom_option: str = "default_value"
 """,
             encoding="utf-8",
@@ -148,13 +150,56 @@ class MythemeTheme(BaseModel):
 
         assert design.theme == "mytheme"
         assert design.custom_option == "test_value"
-        assert design_adapter.dump_python(design, warnings="error") == {
-            "theme": "mytheme",
-            "custom_option": "test_value",
-        }
+        dumped = design_adapter.dump_python(design, warnings="error")
+        assert dumped["theme"] == "mytheme"
+        assert dumped["custom_option"] == "test_value"
         assert b'"custom_option":"test_value"' in design_adapter.dump_json(
             design, warnings="error"
         )
+
+    def test_rejects_custom_theme_lacking_classic_options(
+        self, design_adapter, tmp_path
+    ):
+        # An `__init__.py` from an older `rendercv create-theme` lacks the options
+        # added since. Rendering it would crash, so validation names them:
+        custom_theme_path = tmp_path / "mytheme"
+        custom_theme_path.mkdir()
+        (custom_theme_path / "Header.j2.typ").touch()
+        (custom_theme_path / "__init__.py").write_text(
+            """
+from typing import Literal
+
+import pydantic
+
+from rendercv.schema.models.design.classic_theme import ClassicTheme, Templates
+
+OldTemplates = pydantic.create_model(
+    "OldTemplates",
+    **{
+        name: (field.annotation, field)
+        for name, field in Templates.model_fields.items()
+        if name != "shorten_date_ranges"
+    },
+)
+
+class MythemeTheme(ClassicTheme):
+    theme: Literal["mytheme"] = "mytheme"
+    templates: OldTemplates = OldTemplates()
+""",
+            encoding="utf-8",
+        )
+
+        with pytest.raises(pydantic.ValidationError) as exc:
+            design_adapter.validate_python(
+                {"theme": "mytheme"},
+                context={
+                    "context": ValidationContext(input_file_path=tmp_path / "cv.yaml")
+                },
+            )
+
+        error = exc.value.errors()[0]
+        assert error["type"] == "rendercv_other_error"
+        assert error["ctx"]["missing_options"] == "templates.shorten_date_ranges"
 
     def test_rejects_custom_theme_with_missing_model_class(
         self, design_adapter, tmp_path
@@ -354,3 +399,23 @@ class MythemeTheme(BaseModel):
                 {"theme": "mytheme", "interests": "bad"}, context=context
             )
         assert exc.value.errors()[0]["loc"] == ("interests",)
+
+
+def test_find_missing_options_lists_nested_paths():
+    class Inner(pydantic.BaseModel):
+        kept: int = 1
+        added: int = 2
+
+    class Reference(pydantic.BaseModel):
+        theme: str = "reference"
+        inner: Inner = Inner()
+        added_section: Inner = Inner()
+
+    class OldInner(pydantic.BaseModel):
+        kept: int = 1
+
+    class Old(pydantic.BaseModel):
+        theme: str = "old"
+        inner: OldInner = OldInner()
+
+    assert find_missing_options(Old(), Reference) == ["inner.added", "added_section"]

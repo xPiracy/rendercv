@@ -465,4 +465,7 @@ def create_simple_field_spec(
             title=base_field_info.title,
         ),
     )
+    # Pydantic keeps the constraints of an `Annotated` type, such as the length of
+    # the month names, in the field's metadata rather than in its annotation:
+    new_field.metadata = [*base_field_info.metadata]
     return (cast(type[Any], base_field_info.annotation), new_field)

@@ -92,6 +92,7 @@ class TestPlaceholderPattern:
             ("UNNAMED NAME", ["NAME"]),
             ("NAMES", []),
             ("name", []),
+            ("NAME_CV_DAY", ["NAME", "DAY"]),
         ],
     )
     def test_finds_known_names_at_the_start_of_words(self, text, expected):
@@ -104,6 +105,8 @@ class TestPlaceholderPattern:
         ("text", "expected"),
         [
             ("ADVISOR and NAME", ["ADVISOR", "NAME"]),
+            # An arbitrary key that ends with a known name is still one key:
+            ("CO_NAME", ["CO_NAME"]),
             ("A NASA mission", ["NASA"]),
             ("Mixed Case", []),
             ("I", []),
