@@ -27,11 +27,22 @@
   typography-line-spacing: {{ design.typography.line_spacing }},
   typography-alignment: "{{ design.typography.alignment }}",
   typography-date-and-location-column-alignment: {{ design.typography.date_and_location_column_alignment }},
-  typography-font-family-body: "{{ design.typography.font_family.body }}",
-  typography-font-family-name: "{{ design.typography.font_family.name }}",
-  typography-font-family-headline: "{{ design.typography.font_family.headline }}",
-  typography-font-family-connections: "{{ design.typography.font_family.connections }}",
-  typography-font-family-section-titles: "{{ design.typography.font_family.section_titles }}",
+{% for role in ["body", "name", "headline", "connections", "section_titles"] %}
+{% set font = design.typography.font_family|attr(role) %}
+{% set typst_role = role|replace("_", "-") %}
+  typography-font-family-{{ typst_role }}: "{{ font if font is string else font.family }}",
+{% if font is not string %}
+{% if font.resolved_weight is not none %}
+  typography-font-weight-{{ typst_role }}: {{ font.resolved_weight }},
+{% endif %}
+{% if font.resolved_bold_weight is not none %}
+  typography-bold-weight-{{ typst_role }}: {{ font.resolved_bold_weight }},
+{% endif %}
+{% if font.resolved_tracking is not none %}
+  typography-letter-spacing-{{ typst_role }}: {{ font.resolved_tracking }},
+{% endif %}
+{% endif %}
+{% endfor %}
   typography-font-size-body: {{ design.typography.font_size.body }},
   typography-font-size-name: {{ design.typography.font_size.name }},
   typography-font-size-headline: {{ design.typography.font_size.headline }},
@@ -59,6 +70,9 @@
   header-connections-space-between-connections: {{ design.header.connections.space_between_connections }},
   section-titles-type: "{{ design.section_titles.type }}",
   section-titles-line-thickness: {{ design.section_titles.line_thickness }},
+{% if design.section_titles.space_between_text_and_line is not none %}
+  section-titles-space-between-text-and-line: {{ design.section_titles.space_between_text_and_line }},
+{% endif %}
   section-titles-space-above: {{ design.section_titles.space_above }},
   section-titles-space-below: {{ design.section_titles.space_below }},
   sections-allow-page-break: {{ design.sections.allow_page_break|lower }},

@@ -248,6 +248,7 @@ design:
   # section_titles:
   #   type: moderncv
   #   line_thickness: 0.15cm
+  #   space_between_text_and_line:
   #   space_above: 0.55cm
   #   space_below: 0.3cm
   # sections:

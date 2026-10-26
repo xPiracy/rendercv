@@ -128,6 +128,35 @@ Everything is customizable through `rendercv.with()`. A few examples:
 
 For the full list of parameters with defaults, see [`lib.typ`](lib.typ).
 
+Optional font controls are available for `body`, `name`, `headline`, `connections`,
+and `section-titles`:
+
+```typst
+#show: rendercv.with(
+  typography-font-weight-body: 350,
+  typography-bold-weight-body: 650,
+  typography-letter-spacing-body: 0.05em,
+)
+```
+
+All three controls default to `none`. A font weight overrides the role's legacy
+bold Boolean. A bold weight selects an absolute weight for strong text and for
+roles whose bold Boolean is enabled and whose base weight is omitted. Without a
+bold weight, strong text keeps its normal relative increase. Letter spacing adds
+Typst tracking and keeps font kerning enabled.
+
+`section-titles-space-between-text-and-line` optionally sets the horizontal gap on
+each side of a title in either centred partial-line style. Omitting it preserves
+the existing `0.3em` gap.
+
+RenderCV's Python renderer prepares temporary static instances for explicitly
+selected variable weights when generating PDF and PNG files. Source font files
+are unchanged. Real italic or oblique faces and supported `ital`/`slnt` axes remain
+available. The Typst package itself does not prepare fonts: compiling an exported
+`.typ` file separately requires suitable static fonts or a compiler that supports
+the variable font. It also requires this updated bundled library: the published
+`@preview/rendercv:0.3.0` package does not include the new arguments.
+
 ## RenderCV
 
 This package is part of [RenderCV](https://github.com/rendercv/rendercv), which also offers a CLI tool and a web app at [rendercv.com](https://rendercv.com) -- write your CV in YAML and get a PDF using this same package under the hood.

@@ -11,6 +11,7 @@ import typst
 from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
+from .font_preparation import prepare_font_directory
 from .path_resolver import resolve_rendercv_file_path
 
 
@@ -37,7 +38,9 @@ def generate_pdf(
         rendercv_model, rendercv_model.settings.render_command.pdf_path
     )
     typst_compiler = get_typst_compiler(
-        rendercv_model._input_file_path, typst_path.parent
+        rendercv_model._input_file_path,
+        typst_path.parent,
+        prepare_font_directory(rendercv_model),
     )
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
     typst_compiler.compile(input=typst_path, format="pdf", output=pdf_path)
@@ -73,7 +76,9 @@ def generate_png(
             existing_png_file.unlink()
 
     typst_compiler = get_typst_compiler(
-        rendercv_model._input_file_path, typst_path.parent
+        rendercv_model._input_file_path,
+        typst_path.parent,
+        prepare_font_directory(rendercv_model),
     )
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
     png_files_bytes = typst_compiler.compile(input=typst_path, format="png")
@@ -206,6 +211,7 @@ def get_package_path() -> pathlib.Path:
 def get_typst_compiler(
     input_file_path: pathlib.Path | None,
     root: pathlib.Path,
+    prepared_font_folder: pathlib.Path | None = None,
 ) -> typst.Compiler:
     """Create cached Typst compiler with font paths configured.
 
@@ -219,19 +225,26 @@ def get_typst_compiler(
     Args:
         input_file_path: Original input file path for relative font resolution.
         root: Root directory for Typst project. Must contain the input file.
+        prepared_font_folder: Optional font directory replacing unsupported
+            variable fonts with static instances.
 
     Returns:
         Configured Typst compiler instance.
     """
     return typst.Compiler(
         root=root,
-        font_paths=[
-            *rendercv_fonts.paths_to_font_folders,
-            (
-                input_file_path.parent / "fonts"
-                if input_file_path
-                else pathlib.Path.cwd() / "fonts"
-            ),
-        ],
+        font_paths=(
+            [prepared_font_folder]
+            if prepared_font_folder is not None
+            else [
+                *rendercv_fonts.paths_to_font_folders,
+                (
+                    input_file_path.parent / "fonts"
+                    if input_file_path
+                    else pathlib.Path.cwd() / "fonts"
+                ),
+            ]
+        ),
+        ignore_system_fonts=prepared_font_folder is not None,
         package_path=get_package_path(),
     )

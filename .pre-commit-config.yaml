@@ -24,4 +24,5 @@ repos:
         entry: ty check src tests
         pass_filenames: false
         args: [--python=.venv/]
-        additional_dependencies: ["ty>=0.0.24"]
+        # Match uv.lock so both type checks use the same version.
+        additional_dependencies: ["ty==0.0.24"]

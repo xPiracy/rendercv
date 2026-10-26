@@ -248,6 +248,7 @@ design:
   # section_titles:
   #   type: without_line
   #   line_thickness: 0.5pt
+  #   space_between_text_and_line:
   #   space_above: 0.5cm
   #   space_below: 0.2cm
   # sections:

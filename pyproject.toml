@@ -64,6 +64,7 @@ full = [
   "typst>=0.14.8",  # Render PDF from Typst source files
   "rendercv-fonts>=0.5.1",  # Font files for RenderCV
   "packaging>=26.0",  # For version checking
+  "fonttools>=4.60.0",
 ]
 
 [project.urls]

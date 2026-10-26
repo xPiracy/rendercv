@@ -106,6 +106,7 @@ design:
   section_titles:
     type: with_partial_line # (4)!
     line_thickness: 0.5pt
+    space_between_text_and_line: null
     space_above: 0.5cm
     space_below: 0.3cm
 
@@ -188,3 +189,95 @@ design:
 9. **Available fonts:** << available_font_families >>. Also, any system font can be used. Custom fonts can be used as well. See [Custom Fonts](../how_to/custom_fonts.md) for more information.
 10. **Templates:** Advanced customization - define how each entry type is rendered using placeholders like NAME, COMPANY, DATE, etc.
 11. **Font family shorthand:** You can specify `font_family: "Latin Modern Roman"` directly instead of using nested options to apply the same font everywhere
+
+## Font Weights and Letter Spacing
+
+Each `typography.font_family` role accepts either a family name or an object with optional weight and spacing controls. The roles are `body`, `name`, `headline`, `connections`, and `section_titles`. You can mix strings and objects; each object's controls apply only to its role.
+
+For example, with an Inter variable font that supports weights 350 and 650 available to RenderCV:
+
+```yaml
+design:
+  typography:
+    font_family:
+      body:
+        family: Inter
+        weight: 350
+        bold_weight: 650
+        letter_spacing: default
+      name: Source Sans 3
+      section_titles:
+        family: Source Sans 3
+        weight_name: semibold
+        letter_spacing: 1.05
+```
+
+`family` is required in an object. All other fields are optional. A string such as `body: Inter`, or an object containing only `family: Inter`, keeps the existing weight and spacing behaviour.
+
+| Field | Accepted values | Purpose |
+| --- | --- | --- |
+| `family` | Font family name | Selects the family using its font metadata name. |
+| `weight` | Integer from 100 to 900 | Sets the role's base weight. Values such as 280, 350, or 450 are allowed when supported by the font. |
+| `weight_name` | An available weight name from the table below | Selects the font's named face or variable instance instead of a numeric `weight`. |
+| `bold_weight` | Integer from 100 to 900 | Sets the weight used for bold text within the role. |
+| `bold_weight_name` | An available weight name from the table below | Selects the named bold face or instance instead of a numeric `bold_weight`. |
+| `letter_spacing` | `default`, `null`, a positive number, or a length such as `0.03em` | Controls additional spacing between characters. |
+
+Use `weight` or `weight_name`, and `bold_weight` or `bold_weight_name`. Supplying non-null values for both selectors in either pair is an error. Weight numbers must be integers; values such as `350.5` or `true` are rejected.
+
+### Weight Names
+
+| Name | Conventional weight |
+| --- | --- |
+| `thin` | 100 |
+| `extralight` | 200 |
+| `light` | 300 |
+| `regular` | 400 |
+| `medium` | 500 |
+| `semibold` | 600 |
+| `bold` | 700 |
+| `extrabold` | 800 |
+| `black` | 900 |
+
+Readable aliases such as `extra light`, `semi bold`, and `extra bold` are also accepted. A named selector must match an available face or variable instance in the selected family. RenderCV uses its actual metadata weight, which can differ from the conventional value in the table: a font's Thin face could have weight 280. An unavailable name is an error; it does not create a missing face or silently select the nearest weight.
+
+For a variable weight without a named instance, use a numeric selector within the font's supported range.
+
+Typst's embedded fonts do not expose their source name records. For those fonts only, names use the conventional values above and must match an available face weight.
+
+### Bold Text
+
+An explicit `weight` or `weight_name` takes precedence over the role's existing `typography.bold` flag. Without an explicit base weight, that flag keeps its usual behaviour: regular text uses 400, and bold text uses `bold_weight` when supplied or 700 otherwise.
+
+`bold_weight` also controls inline Markdown `**bold text**` within the role. It selects that absolute weight, so `weight: 350` with `bold_weight: 650` produces base text at 350 and bold text at 650. Omitting the bold selector preserves Typst's usual relative strong emphasis.
+
+### Character Spacing
+
+Omit `letter_spacing`, use `default` or `null`, or set it to `1` to keep the font's native spacing and kerning. A numeric factor adds tracking equal to `(factor - 1)em`: `1.05` adds `0.05em` between characters, while `0.98` subtracts `0.02em`. This adds a fixed amount based on the font size; it does not multiply each glyph's width. Numeric factors must be positive and finite.
+
+You can also provide a length directly, such as `letter_spacing: 0.03em` or `letter_spacing: -0.01em`. An `em` is the current font size, so `0.03em` adds 0.3pt at a 10pt text size.
+
+### Available Font Faces
+
+Use the family name stored in the font's metadata, with its normal spaces. Put custom `.ttf` or `.otf` files in the `fonts` directory next to your YAML file; see [Custom Fonts](../how_to/custom_fonts.md).
+
+A static font file usually provides one face at one weight. To select several weights, supply the matching files from the same family or a variable font whose `wght` axis supports the requested values. One `.otf` file does not necessarily contain every weight or an italic face. True italics require a matching italic face or an italic variation axis; these weight and spacing controls do not add italic glyphs.
+
+Font objects validate the family and any explicit weight against the available font files. An unknown family, a missing named face, or a numeric weight outside the available static weights or variable range causes an error. Existing family-name strings keep their previous matching behaviour.
+
+Weight validation follows Typst's matching order for normal text: upright faces take priority over italic or oblique faces, then stretch closest to normal takes priority over weight. A weight available only in a lower-priority face is rejected. When no upright face exists, Typst's native style fallback applies. A variable font can provide an upright face through an `ital: 0` or `slnt: 0` coordinate when its axes support those values. Inline italics keep Typst's native face matching.
+
+For variable fonts, RenderCV supplies temporary static instances to its PDF and PNG compiler without changing the source font files. A standalone exported `.typ` file needs usable static font files or an external compiler that supports variable fonts. Use the updated bundled RenderCV Typst library for standalone compilation with these settings; the published `@preview/rendercv:0.3.0` package does not include these arguments.
+
+## Space Between Section Titles and Lines
+
+For `centered_with_partial_line` and `centered_with_centered_partial_line`, set `section_titles.space_between_text_and_line` to control the horizontal gap between the title text and the line on each side:
+
+```yaml
+design:
+  section_titles:
+    type: centered_with_centered_partial_line
+    space_between_text_and_line: 0.4em
+```
+
+This field accepts a length such as `0.4em`, `3pt`, or `0.1cm`. Omit it or use `null` to keep the existing `0.3em` gap. Other section title styles are unaffected.

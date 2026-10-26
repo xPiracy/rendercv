@@ -170,6 +170,35 @@ Entries also accept arbitrary extra keys (silently ignored during rendering). A 
 
 All built-in themes share the same structure — they only differ in default values. See the sample designs below for every available field and its default. Set `design.theme` to pick a theme, then override any field.
 
+Each `design.typography.font_family` role (`body`, `name`, `headline`, `connections`, `section_titles`) accepts a family-name string or an object:
+
+```yaml
+design:
+  typography:
+    font_family:
+      body:
+        family: Inter
+        weight: 350
+        bold_weight: 650
+        letter_spacing: default
+      name: Source Sans 3
+```
+
+Only `family` is required in an object. All controls are optional; strings keep the existing behaviour. Use the font's metadata family name, with its normal spaces.
+
+- `weight` and `bold_weight` accept integer weights from 100 to 900, including values such as 280 or 450. Floats and booleans are rejected.
+- Alternatively, use `weight_name` and `bold_weight_name`: `thin`, `extralight`, `light`, `regular`, `medium`, `semibold`, `bold`, `extrabold`, `black`. Readable aliases such as `extra light`, `semi bold`, and `extra bold` are accepted. Names must exist as a face or variable instance in the selected family; RenderCV uses its actual metadata weight, so Thin need not mean 100. Use a numeric selector for unnamed variable coordinates. Each numeric selector and its named alternative are mutually exclusive when non-null.
+- Explicit base weight overrides the role's `typography.bold` flag. `bold_weight` selects an absolute weight for inline `**bold**` text and for a bold role without an explicit base weight. Omit it to keep the usual bold behaviour.
+- `letter_spacing: default`, `null`, omission, or numeric `1` preserves native spacing and kerning. A positive finite numeric factor adds `(factor - 1)em` tracking: `1.05` adds `0.05em`; it does not multiply glyph widths. A direct length such as `0.03em` or `-0.01em` is also accepted. Controls apply only to the specified role.
+
+Custom fonts belong in `fonts/` next to the input YAML. Font objects reject unavailable families, names, and numeric weights; legacy strings retain their existing matching behaviour. The Inter example requires a font supporting weights 350 and 650. A static font file supplies one face; use matching family files or a variable font with a suitable `wght` range for other weights. RenderCV supplies temporary static instances to its PDF and PNG compiler without changing the original font files. Standalone exported `.typ` files need usable static fonts or a variable-capable external compiler, plus the updated bundled RenderCV Typst library; the published `@preview/rendercv:0.3.0` package does not include these arguments. One OTF does not imply every weight or italics. True italics require a matching italic face or variation axis.
+
+Base and bold weights follow Typst's normal-text matching order: upright style first, then stretch closest to normal, then weight. A weight found only in a lower-priority face is rejected. Without an upright face, native italic/oblique fallback still applies. Variable `ital: 0` or `slnt: 0` coordinates can supply upright faces when the axes support them. Inline italics retain native face matching.
+
+Typst's embedded fonts lack source name records; for those fonts only, weight names use conventional 100–900 values and must match an available face weight.
+
+For section title types `centered_with_partial_line` and `centered_with_centered_partial_line`, the optional `design.section_titles.space_between_text_and_line` length sets the horizontal gap on each side of the title text (e.g., `0.4em`). Omission or `null` keeps the existing `0.3em` gap; other title styles are unaffected.
+
 ### Locale (`locale`)
 
 Built-in locales: `english`, `arabic`, `danish`, `dutch`, `french`, `german`, `hebrew`, `hindi`, `hungarian`, `indonesian`, `italian`, `japanese`, `korean`, `mandarin_chinese`, `norwegian_bokmål`, `norwegian_nynorsk`, `persian`, `portuguese`, `russian`, `spanish`, `turkish`, `vietnamese`
@@ -437,7 +466,7 @@ cv:
 
 ### Sample Design (classic — complete reference)
 
-This shows every available design field with its default value. All themes share the same structure.
+This shows the default design. Optional font objects and their controls are described above. All themes share the same structure.
 
 ```yaml
 design:
@@ -507,6 +536,7 @@ design:
   section_titles:
     type: with_partial_line
     line_thickness: 0.5pt
+    space_between_text_and_line:
     space_above: 0.5cm
     space_below: 0.3cm
   sections:

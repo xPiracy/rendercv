@@ -33,7 +33,7 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
         Validated design model (built-in or custom theme class).
     """
     try:
-        return built_in_design_adapter.validate_python(design)
+        return built_in_design_adapter.validate_python(design, context=info.context)
     except pydantic.ValidationError as e:
         errors = e.errors()
         # Detect if validation failed because the theme name doesn't match any
@@ -135,7 +135,14 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
             raise ValueError(message) from e
 
         # Initialize and validate the custom theme data model:
-        theme_data_model = theme_data_model_class(**design)
+        if isinstance(theme_data_model_class, type) and issubclass(
+            theme_data_model_class, pydantic.BaseModel
+        ):
+            theme_data_model = theme_data_model_class.model_validate(
+                design, context=info.context
+            )
+        else:
+            theme_data_model = theme_data_model_class(**design)
     else:
         # Then it means there is no __init__.py file in the custom theme folder.
         # Create a dummy data model and use that instead.

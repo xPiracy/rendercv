@@ -5,6 +5,7 @@ import pydantic
 from rendercv.schema.models.base import BaseModelWithoutExtraKeys
 from rendercv.schema.models.design.color import Color
 from rendercv.schema.models.design.font_family import FontFamily as FontFamilyType
+from rendercv.schema.models.design.font_settings import FontSettings, SpacingDimension
 from rendercv.schema.models.design.typst_dimension import (
     TypstDimension,
     length_common_description,
@@ -123,31 +124,31 @@ type Alignment = Literal["left", "center", "right"]
 
 
 class FontFamily(BaseModelWithoutExtraKeys):
-    body: FontFamilyType = pydantic.Field(
+    body: FontFamilyType | FontSettings = pydantic.Field(
         default="Source Sans 3",
         description=(
             "The font family for body text. The default value is `Source Sans 3`."
         ),
     )
-    name: FontFamilyType = pydantic.Field(
+    name: FontFamilyType | FontSettings = pydantic.Field(
         default="Source Sans 3",
         description=(
             "The font family for the name. The default value is `Source Sans 3`."
         ),
     )
-    headline: FontFamilyType = pydantic.Field(
+    headline: FontFamilyType | FontSettings = pydantic.Field(
         default="Source Sans 3",
         description=(
             "The font family for the headline. The default value is `Source Sans 3`."
         ),
     )
-    connections: FontFamilyType = pydantic.Field(
+    connections: FontFamilyType | FontSettings = pydantic.Field(
         default="Source Sans 3",
         description=(
             "The font family for connections. The default value is `Source Sans 3`."
         ),
     )
-    section_titles: FontFamilyType = pydantic.Field(
+    section_titles: FontFamilyType | FontSettings = pydantic.Field(
         default="Source Sans 3",
         description=(
             "The font family for section titles. The default value is `Source Sans 3`."
@@ -255,8 +256,10 @@ class Typography(BaseModelWithoutExtraKeys):
         description=(
             "The font family. You can provide a single font name as a string (applies"
             " to all elements), or a dictionary with keys 'body', 'name', 'headline',"
-            " 'connections', and 'section_titles' to customize each element. Any system"
-            " font can be used."
+            " 'connections', and 'section_titles' to customize each element. Each"
+            " element accepts a family string or a font settings object with family"
+            " and optional weight, bold weight, and letter spacing controls. Any"
+            " system font can be used."
         ),
     )
     font_size: FontSize = pydantic.Field(
@@ -277,7 +280,7 @@ class Typography(BaseModelWithoutExtraKeys):
     )
     @classmethod
     def validate_font_family(
-        cls, font_family: FontFamily | FontFamilyType
+        cls, font_family: FontFamily | FontFamilyType, info: pydantic.ValidationInfo
     ) -> FontFamily:
         """Convert string font to FontFamily object with uniform styling.
 
@@ -288,6 +291,7 @@ class Typography(BaseModelWithoutExtraKeys):
 
         Args:
             font_family: String font name or FontFamily object.
+            info: Validation context for locating user fonts.
 
         Returns:
             FontFamily object with all fields populated.
@@ -301,7 +305,7 @@ class Typography(BaseModelWithoutExtraKeys):
                 section_titles=font_family,
             )
 
-        return FontFamily.model_validate(font_family)
+        return FontFamily.model_validate(font_family, context=info.context)
 
 
 # Links
@@ -455,6 +459,15 @@ class SectionTitles(BaseModelWithoutExtraKeys):
     line_thickness: TypstDimension = pydantic.Field(
         default="0.5pt",
         description=length_common_description + " The default value is `0.5pt`.",
+    )
+    space_between_text_and_line: SpacingDimension | None = pydantic.Field(
+        default=None,
+        description=(
+            "The horizontal gap between a centered section title and the partial"
+            " lines on either side. Applies to centered_with_partial_line and"
+            " centered_with_centered_partial_line. Omit it to preserve the theme's"
+            " spacing. " + length_common_description
+        ),
     )
     space_above: TypstDimension = pydantic.Field(
         default="0.5cm",

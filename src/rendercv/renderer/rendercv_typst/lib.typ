@@ -3,6 +3,50 @@
 // State to hold rendercv configuration for use by components
 #let rendercv-config = state("rendercv-config", (:))
 
+// Scope optional font controls to a typography role. In particular, body
+// tracking and strong weights must not change the header roles' defaults.
+#let font-controls(role, body) = context {
+  let config = rendercv-config.get()
+  let weight = config.at("typography-font-weight-" + role)
+  let bold-weight = config.at("typography-bold-weight-" + role)
+  let tracking = config.at("typography-letter-spacing-" + role)
+  let is-body = role == "body"
+  let body-bold-weight = config.at("typography-bold-weight-body")
+  let body-tracking = config.at("typography-letter-spacing-body")
+
+  if weight == none and config.at("typography-bold-" + role, default: false) {
+    weight = bold-weight
+  }
+  set text(weight: weight) if weight != none
+  set text(tracking: tracking) if tracking != none
+  set text(tracking: config.at("default-letter-spacing")) if (
+    not is-body and tracking == none and body-tracking != none
+  )
+
+  if bold-weight != none {
+    // Replace the strong element's weight increase with an absolute weight.
+    // Leaving its native increase in place would add 300 to this selection.
+    show strong: it => text(weight: bold-weight, it.body)
+    body
+  } else if not is-body and body-bold-weight != none {
+    // A local rule prevents the body's absolute weight from leaking into a
+    // header role. Retain that role's normal relative strong behaviour.
+    show strong: it => context {
+      let weight = text.weight
+      if type(weight) == str {
+        weight = (
+          thin: 100, extralight: 200, light: 300, regular: 400, medium: 500,
+          semibold: 600, bold: 700, extrabold: 800, black: 900,
+        ).at(weight)
+      }
+      text(weight: calc.clamp(weight + it.delta, 100, 900), it.body)
+    }
+    body
+  } else {
+    body
+  }
+}
+
 // Direction-aware inset: maps logical start/end to physical left/right.
 // Must be called from within a `context` scope.
 #let directional-inset(start: 0cm, end: 0cm) = {
@@ -32,6 +76,7 @@
       weight: if typography-bold-headline { 700 } else { 400 },
     )
     set align(header-alignment)
+    show: font-controls.with("headline")
     block(
       if typography-small-caps-headline { smallcaps(headline) } else { headline },
       width: 100%,
@@ -67,6 +112,7 @@
       size: typography-font-size-connections,
       weight: if typography-bold-connections { 700 } else { 400 },
     )
+    show: font-controls.with("connections")
 
     let separator = (
       h(header-connections-space-between-connections / 2, weak: true)
@@ -400,6 +446,21 @@
   typography-font-family-headline: "Raleway",
   typography-font-family-connections: "Raleway",
   typography-font-family-section-titles: "Raleway",
+  typography-font-weight-body: none,
+  typography-font-weight-name: none,
+  typography-font-weight-headline: none,
+  typography-font-weight-connections: none,
+  typography-font-weight-section-titles: none,
+  typography-bold-weight-body: none,
+  typography-bold-weight-name: none,
+  typography-bold-weight-headline: none,
+  typography-bold-weight-connections: none,
+  typography-bold-weight-section-titles: none,
+  typography-letter-spacing-body: none,
+  typography-letter-spacing-name: none,
+  typography-letter-spacing-headline: none,
+  typography-letter-spacing-connections: none,
+  typography-letter-spacing-section-titles: none,
   typography-font-size-body: 10pt,
   typography-font-size-name: 30pt,
   typography-font-size-headline: 10pt,
@@ -427,6 +488,7 @@
   header-connections-space-between-connections: 0.5cm,
   section-titles-type: "with_full_line",
   section-titles-line-thickness: 0.5pt,
+  section-titles-space-between-text-and-line: none,
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
   sections-allow-page-break: true,
@@ -463,7 +525,8 @@
   #let end-align = if is-rtl { left } else { right }
 
   // Initialize state with all configuration parameters
-  #rendercv-config.update((
+  #context rendercv-config.update((
+    default-letter-spacing: text.tracking,
     // Direction
     text-direction: text-direction,
     is-rtl: is-rtl,
@@ -489,6 +552,21 @@
     typography-font-family-headline: typography-font-family-headline,
     typography-font-family-connections: typography-font-family-connections,
     typography-font-family-section-titles: typography-font-family-section-titles,
+    typography-font-weight-body: typography-font-weight-body,
+    typography-font-weight-name: typography-font-weight-name,
+    typography-font-weight-headline: typography-font-weight-headline,
+    typography-font-weight-connections: typography-font-weight-connections,
+    typography-font-weight-section-titles: typography-font-weight-section-titles,
+    typography-bold-weight-body: typography-bold-weight-body,
+    typography-bold-weight-name: typography-bold-weight-name,
+    typography-bold-weight-headline: typography-bold-weight-headline,
+    typography-bold-weight-connections: typography-bold-weight-connections,
+    typography-bold-weight-section-titles: typography-bold-weight-section-titles,
+    typography-letter-spacing-body: typography-letter-spacing-body,
+    typography-letter-spacing-name: typography-letter-spacing-name,
+    typography-letter-spacing-headline: typography-letter-spacing-headline,
+    typography-letter-spacing-connections: typography-letter-spacing-connections,
+    typography-letter-spacing-section-titles: typography-letter-spacing-section-titles,
     typography-font-size-body: typography-font-size-body,
     typography-font-size-name: typography-font-size-name,
     typography-font-size-headline: typography-font-size-headline,
@@ -578,6 +656,7 @@
     // Disable ligatures for better ATS compatibility:
     ligatures: true,
   )
+  #show: font-controls.with("body")
 
   // Main heading (name):
   #show heading.where(level: 1): it => [
@@ -589,6 +668,7 @@
       fill: colors-name,
       weight: if typography-bold-name { 700 } else { 400 },
     )
+    #show: font-controls.with("name")
     #let body
     #if typography-small-caps-name {
       body = [#smallcaps(it.body)]
@@ -611,6 +691,7 @@
       weight: if typography-bold-section-titles { 700 } else { 400 },
       fill: colors-section-titles,
     )
+    #show: font-controls.with("section-titles")
     #let section-title = (
       if typography-small-caps-section-titles [
         #smallcaps(it.body)
@@ -647,7 +728,9 @@
           #grid(
             columns: (1fr, auto, 1fr),
             align: (bottom, center + bottom, bottom),
-            column-gutter: 0.3em,
+            column-gutter: if section-titles-space-between-text-and-line != none {
+              section-titles-space-between-text-and-line
+            } else { 0.3em },
             [#box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)],
             [#section-title],
             [#box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)],
@@ -656,7 +739,9 @@
           #grid(
             columns: (1fr, auto, 1fr),
             align: (horizon, center, horizon),
-            column-gutter: 0.3em,
+            column-gutter: if section-titles-space-between-text-and-line != none {
+              section-titles-space-between-text-and-line
+            } else { 0.3em },
             [#box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)],
             [#section-title],
             [#box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)],

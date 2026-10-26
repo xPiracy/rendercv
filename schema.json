@@ -1191,6 +1191,168 @@
       "title": "ExperienceEntry",
       "type": "object"
     },
+    "FontSettings": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "not": {
+            "properties": {
+              "weight": {
+                "not": {
+                  "type": "null"
+                }
+              },
+              "weight_name": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            },
+            "required": [
+              "weight",
+              "weight_name"
+            ]
+          }
+        },
+        {
+          "not": {
+            "properties": {
+              "bold_weight": {
+                "not": {
+                  "type": "null"
+                }
+              },
+              "bold_weight_name": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            },
+            "required": [
+              "bold_weight",
+              "bold_weight_name"
+            ]
+          }
+        }
+      ],
+      "description": "Optional font controls for one typography role.\n\nWhy:\n    A family string keeps the existing font selection. This object adds\n    explicit controls only when a user requests them.",
+      "properties": {
+        "family": {
+          "description": "The font family name recorded in the font metadata.",
+          "examples": [
+            "DejaVu Sans Mono",
+            "EB Garamond",
+            "Fontin",
+            "Gentium Book Plus",
+            "Lato",
+            "Libertinus Serif",
+            "Mukta",
+            "New Computer Modern",
+            "Noto Sans",
+            "Open Sans",
+            "Open Sauce Sans",
+            "Poppins",
+            "Raleway",
+            "Roboto",
+            "Source Sans 3",
+            "Ubuntu",
+            "XCharter"
+          ],
+          "type": "string"
+        },
+        "weight": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FontWeight"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "An exact integer font weight between 100 and 900. Use either weight or weight_name. Omit both to preserve the theme's weight selection."
+        },
+        "weight_name": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FontWeightName"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A named font weight: thin, extralight, light, regular, medium, semibold, bold, extrabold, or black. Names are case-insensitive; extra light, semi bold, and extra bold also accept spaces or hyphens. The name must match an available font subfamily or named variable instance; its metadata determines the numeric weight. Use either weight_name or weight."
+        },
+        "bold_weight": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FontWeight"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "An exact integer weight for bold text between 100 and 900, including Markdown bold text. Use either bold_weight or bold_weight_name. Omit both to preserve the theme's bold selection."
+        },
+        "bold_weight_name": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FontWeightName"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A named weight for bold text, including Markdown bold text. Accepts the same names as weight_name. Use either bold_weight_name or bold_weight."
+        },
+        "letter_spacing": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LetterSpacing"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Extra tracking between characters. Use default or null to preserve font spacing, a positive finite factor (1 preserves spacing; 1.05 adds 0.05em), or a Typst length such as 0.03em or -0.01em. Factors add em tracking while retaining kerning; they do not scale glyph advances."
+        }
+      },
+      "required": [
+        "family"
+      ],
+      "title": "FontSettings",
+      "type": "object"
+    },
+    "FontWeight": {
+      "maximum": 900,
+      "minimum": 100,
+      "type": "integer"
+    },
+    "FontWeightName": {
+      "examples": [
+        "thin",
+        "extralight",
+        "light",
+        "regular",
+        "medium",
+        "semibold",
+        "bold",
+        "extrabold",
+        "black",
+        "extra light",
+        "extra-light",
+        "semi bold",
+        "semi-bold",
+        "extra bold",
+        "extra-bold"
+      ],
+      "pattern": "^\\s*(?:[tT][hH][iI][nN]|[eE][xX][tT][rR][aA][lL][iI][gG][hH][tT]|[lL][iI][gG][hH][tT]|[rR][eE][gG][uU][lL][aA][rR]|[mM][eE][dD][iI][uU][mM]|[sS][eE][mM][iI][bB][oO][lL][dD]|[bB][oO][lL][dD]|[eE][xX][tT][rR][aA][bB][oO][lL][dD]|[bB][lL][aA][cC][kK]|[eE][xX][tT][rR][aA] [lL][iI][gG][hH][tT]|[eE][xX][tT][rR][aA]-[lL][iI][gG][hH][tT]|[sS][eE][mM][iI] [bB][oO][lL][dD]|[sS][eE][mM][iI]-[bB][oO][lL][dD]|[eE][xX][tT][rR][aA] [bB][oO][lL][dD]|[eE][xX][tT][rR][aA]-[bB][oO][lL][dD])\\s*$",
+      "type": "string"
+    },
     "FrenchLocale": {
       "additionalProperties": false,
       "properties": {
@@ -2152,6 +2314,21 @@
       },
       "title": "KoreanLocale",
       "type": "object"
+    },
+    "LetterSpacing": {
+      "anyOf": [
+        {
+          "const": "default",
+          "type": "string"
+        },
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "$ref": "#/$defs/SpacingDimension"
+        }
+      ]
     },
     "ListOfEntries": {
       "anyOf": [
@@ -3240,7 +3417,6 @@
       "properties": {
         "output_folder": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "rendercv_output",
           "description": "Base output folder for all generated files. The default value is `rendercv_output`. Referenced as `OUTPUT_FOLDER` in output path defaults.\n\n"
         },
         "design": {
@@ -3269,28 +3445,23 @@
         },
         "typst_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ",
           "description": "Output path for the Typst file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "pdf_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf",
           "description": "Output path for the PDF file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "markdown_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md",
           "description": "Output path for the Markdown file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "Markdown Path"
         },
         "html_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html",
           "description": "Output path for the HTML file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "png_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png",
           "description": "Output path for PNG files, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "dont_generate_markdown": {
@@ -3586,6 +3757,10 @@
         "Bluesky",
         "Reddit"
       ],
+      "type": "string"
+    },
+    "SpacingDimension": {
+      "pattern": "^-?\\d+(?:\\.\\d+)?(cm|in|pt|mm|em)(?![\\s\\S])",
       "type": "string"
     },
     "SpanishLocale": {
@@ -5830,29 +6005,69 @@
       "additionalProperties": false,
       "properties": {
         "body": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/FontSettings"
+            }
+          ],
           "default": "Source Sans 3",
-          "description": "The font family for body text. The default value is `Source Sans 3`."
+          "description": "The font family for body text. The default value is `Source Sans 3`.",
+          "title": "Body"
         },
         "name": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/FontSettings"
+            }
+          ],
           "default": "Source Sans 3",
-          "description": "The font family for the name. The default value is `Source Sans 3`."
+          "description": "The font family for the name. The default value is `Source Sans 3`.",
+          "title": "Name"
         },
         "headline": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/FontSettings"
+            }
+          ],
           "default": "Source Sans 3",
-          "description": "The font family for the headline. The default value is `Source Sans 3`."
+          "description": "The font family for the headline. The default value is `Source Sans 3`.",
+          "title": "Headline"
         },
         "connections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/FontSettings"
+            }
+          ],
           "default": "Source Sans 3",
-          "description": "The font family for connections. The default value is `Source Sans 3`."
+          "description": "The font family for connections. The default value is `Source Sans 3`.",
+          "title": "Connections"
         },
         "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/FontSettings"
+            }
+          ],
           "default": "Source Sans 3",
-          "description": "The font family for section titles. The default value is `Source Sans 3`."
+          "description": "The font family for section titles. The default value is `Source Sans 3`.",
+          "title": "Section Titles"
         }
       },
       "title": "FontFamily",
@@ -7482,6 +7697,18 @@
           "default": "0.5pt",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
         },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
+        },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
@@ -7508,6 +7735,18 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5pt",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
+        },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
@@ -7536,6 +7775,18 @@
           "default": "0.5pt",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
         },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
+        },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
@@ -7562,6 +7813,18 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5pt",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
+        },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
@@ -7590,6 +7853,18 @@
           "default": "0.5pt",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
         },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
+        },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
@@ -7616,6 +7891,18 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5pt",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
+        },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
@@ -7644,6 +7931,18 @@
           "default": "0.15cm",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
+        },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.55cm",
@@ -7671,6 +7970,18 @@
           "default": "0.4pt",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4pt`."
         },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
+        },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.55cm",
@@ -7697,6 +8008,18 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5pt",
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
+        },
+        "space_between_text_and_line": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpacingDimension"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The horizontal gap between a centered section title and the partial lines on either side. Applies to centered_with_partial_line and centered_with_centered_partial_line. Omit it to preserve the theme's spacing. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
@@ -8800,7 +9123,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
@@ -8852,7 +9175,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
@@ -8904,7 +9227,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
@@ -8956,7 +9279,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
@@ -9008,7 +9331,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
@@ -9060,7 +9383,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
@@ -9112,7 +9435,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
@@ -9164,7 +9487,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
@@ -9216,7 +9539,7 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Each element accepts a family string or a font settings object with family and optional weight, bold weight, and letter spacing controls. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
